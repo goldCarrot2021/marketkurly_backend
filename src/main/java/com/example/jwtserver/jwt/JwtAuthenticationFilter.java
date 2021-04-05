@@ -44,11 +44,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // 4. JWT 토큰을 만들어서 응답해주면 됨.
 
         try{
-//            BufferedReader br = request.getReader();
-//            String input = null;
-//            while ((input = br.readLine()) != null) {
-//                System.out.println(input); //username과 password가 나옴
-//            }
+
             ObjectMapper om = new ObjectMapper(); //json을 객체형식으로
             User user = om.readValue(request.getInputStream(), User.class);
             System.out.println(user);

@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 // 서버에서 클라이언트의 요청으로부터 온 JWT 토큰을 검증한다.
 // 서버는 요청으로부터 온 JWT 토큰의 Header와 Payload 그리고 서버에서 알고있는 시크릿키 값을 더해서 HS256(HMAX512+SHA256)으로 똑같이 암호화해
@@ -59,9 +60,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         //서명(signature)이 정상적으로 됨
         if(username != null) {
             System.out.println("서명 검증이 정상적으로 됨");
-            User userEntity = userRepository.findByUsername(username);
+            Optional<User> userEntity = userRepository.findByUsername(username);
 
-            PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
+            //PrincipalDetails principalDetails = new PrincipalDetails(userEntity); Optional<User> 아니고 그냥 User일때
+            PrincipalDetails principalDetails = userEntity.map(PrincipalDetails::new).orElse(null); // 입력받은 username에 해당하는 사용자가 있다면, PrincipalDetails 객체를 생성한다.
 
             // JWT 토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어준다.
             Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());

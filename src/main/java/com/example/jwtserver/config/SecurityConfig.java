@@ -1,5 +1,6 @@
 package com.example.jwtserver.config;
 
+import com.example.jwtserver.jwt.JwtAuthenticationEntryPoint;
 import com.example.jwtserver.jwt.JwtAuthenticationFilter;
 import com.example.jwtserver.jwt.JwtAuthorizationFilter;
 import com.example.jwtserver.repository.UserRepository;
@@ -21,6 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsFilter corsFilter;
     private final UserRepository userRepository;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint; //jwt 인증이 실패할 경우 처리할때 필요
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -29,6 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        // /login에서 /api/v1/login으로 변경
+        JwtAuthenticationFilter authenticationFilter = new JwtAuthenticationFilter(authenticationManager());
+        authenticationFilter.setFilterProcessesUrl("/api/v1/login");
+
         http.csrf().disable();
         http
                 // 해당 설정 없으면  h2-console 확인 안됨
@@ -40,10 +47,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //세션을 사용하지 않겠다.
 
                 .and()
+                .exceptionHandling() //예외 처리 설정
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+
+                .and()
                 .addFilter(corsFilter) //crossOrigin 정책을 벗어나게(모든 요청을 허용하겠다). 인증을 하기위해 시큐리티 필터에 등록
                 .formLogin().disable() //스프링 시큐리티가 제공하는 form 태그 로그인 안한다.
                 .httpBasic().disable() //header의 Authorization에 id,pw를 들고 가는 방식 - disable 하고
                 // Bearer방식(header의 Authorization에 토큰을 넣는 방식)을 쓸것임
+                .addFilter(authenticationFilter) // /login에서 /api/v1/login으로 변경
                 .addFilter(new JwtAuthenticationFilter(authenticationManager())) //AuthenticationManager 가 파라미터로 들어가야함
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository)) //AuthenticationManager 가 파라미터로 들어가야함
                 .authorizeRequests()
