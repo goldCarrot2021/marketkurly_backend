@@ -23,13 +23,13 @@ public class User {
     private Long id;
     private String username; //변수명 바꾸면 안됨
     private String password;
-    private String roles; //USER, ADMIN
-
-    public List<String> getRoleList() {
-        if(this.roles.length() > 0) {
-            return Arrays.asList(this.roles.split(","));
-        }
-        return new ArrayList<>();
-    }
+//    private String roles; //USER, ADMIN
+//
+//    public List<String> getRoleList() {
+//        if(this.roles.length() > 0) {
+//            return Arrays.asList(this.roles.split(","));
+//        }
+//        return new ArrayList<>();
+//    }
 
 }

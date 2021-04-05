@@ -31,7 +31,7 @@ public class RestApiController {
     @PostMapping("join")
     public String join(@RequestBody User user) { //user는 나중에 dto로 바꿔야됨
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles("ROLE_USER");
+//        user.setRoles("ROLE_USER");
         userRepository.save(user);
         return "회원가입완료";
     }
@@ -42,6 +42,11 @@ public class RestApiController {
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         System.out.println("authentication : " + principal.getUsername());
         return "user";
+    }
+
+    @GetMapping("/api/v1/cart")
+    public String cart() {
+        return "<h1>cart</h1>";
     }
 
 }

@@ -58,6 +58,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         //서명(signature)이 정상적으로 됨
         if(username != null) {
+            System.out.println("서명 검증이 정상적으로 됨");
             User userEntity = userRepository.findByUsername(username);
 
             PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
