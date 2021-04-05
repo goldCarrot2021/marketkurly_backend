@@ -60,6 +60,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository)) //AuthenticationManager 가 파라미터로 들어가야함
                 .authorizeRequests()
                 .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/api/v1/products").permitAll()
+                .antMatchers("/api/v1/signup").permitAll()
+                .antMatchers("/api/v1/user").permitAll()
                 .antMatchers("/api/v1/cart/**").authenticated() //이런식으로 인증된 사용자만 접근할 수 있다.
 //                .antMatchers("/api/v1/user/**").access("hasRole('ROLE_USER')")
                 .anyRequest().permitAll();

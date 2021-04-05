@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 //    // 테스트 코드
@@ -31,30 +30,30 @@ public class UserController {
 
     @PostMapping("/api/v1/signup")
     @ResponseBody
-    public String createUser(@RequestBody SignupRequestDto userRequestDto){
-        /* 유저 생성*/
-        User user = userService.createUser(userRequestDto);
+    public String createUser(@RequestBody SignupRequestDto signupRequestDto){
+
+        /* 유저 생성 */
+        User user = userService.createUser(signupRequestDto);
 
         String ok="";
-        if(user==null){ /* user객체가 비어있다면 = 유저가 생성 안됐다면*/
+        if(user==null){ /* user객체가 비어있다면 = 유저가 생성 안됬다면*/
             ok="false"; /* false를 프론트단 에 넘겨줌 */
 
-        }else { /* user객체가 비어있지않다면 = 유저가 생성 됐다면 */
+        }else if(user != null){ /* user객체가 비어있지않다면 = 유저가 생성 됬다면 */
             ok="true"; /* true를 프론트 단에 넘겨줌 */
         }
-
         return ok;
     }
 
 
 
-//    //user만 접근 가능 //JWT 기능 테스트용
-//    @GetMapping("/api/v1/user")
-//    public String user(Authentication authentication) {
-//        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-//        System.out.println("authentication : " + principal.getUsername());
-//        return "user";
-//    }
+    //user만 접근 가능 //JWT 기능 테스트용
+    @GetMapping("/api/v1/user")
+    public String user(Authentication authentication) {
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        System.out.println("authentication : " + principal.getUsername());
+        return "user";
+    }
 
 
     // 장바구니 api url 확인
@@ -64,7 +63,7 @@ public class UserController {
     }
 
     /* 유저 아이디 중복 체크 */
-    @GetMapping("api/v1/signup/users/{userId}")
+    @GetMapping("/api/v1/signup/username/{username}")
     @ResponseBody
     public String userIdCheck(@PathVariable String username){
         return userService.usernameCheck(username);
@@ -72,10 +71,11 @@ public class UserController {
 
 
     /* email중복  */
-    @GetMapping("/api/v1/signup/users")
+    @GetMapping("/api/v1/signup/email/{email}")
     @ResponseBody
-    public String emailCheck(@RequestParam String email){
+    public String emailCheck(@PathVariable String email){
         return userService.emailCheck(email);
     }
+
 
 }

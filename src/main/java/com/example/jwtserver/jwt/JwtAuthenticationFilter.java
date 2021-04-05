@@ -86,7 +86,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String jwtToken = JWT.create()
                 .withSubject("cos 토큰") //큰 의미 없음
                 .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME)) //토큰이 언제까지 유효할지 (10분)
-                .withClaim("id", principalDetails.getUser().getId()) //claim에는 내가 넣고 싶은거 막 넣어도 됨
+                .withClaim("id", principalDetails.getUser().getUid()) //claim에는 내가 넣고 싶은거 막 넣어도 됨
                 .withClaim("username", principalDetails.getUser().getUsername())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET)); //시크릿키 값
 
