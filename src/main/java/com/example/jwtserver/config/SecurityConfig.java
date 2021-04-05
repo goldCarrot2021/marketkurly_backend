@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //세션을 사용하지 않겠다.
 
                 .and()
-                .exceptionHandling() //예외 처리 설정
+                .exceptionHandling() //예외 처리 설정 -> 동작안함
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
 
                 .and()
