@@ -18,6 +18,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Date;
 
 //스프링 시큐리티에 UsernamePasswordAuthenticationFilter 가 있음
@@ -91,8 +94,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withClaim("username", principalDetails.getUser().getUsername())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET)); //시크릿키 값
 
+        //Base64로 userInfo에 보낼 정보 인코딩(한글 깨지는거 utf-8로 인코딩해서 해결)
+        String utf_name = URLEncoder.encode(principalDetails.getUser().getName(), StandardCharsets.UTF_8);
+        String encode_name = Base64.getEncoder().encodeToString(utf_name.getBytes(StandardCharsets.UTF_8));
+        String utf_address = URLEncoder.encode(principalDetails.getUser().getAddress(), StandardCharsets.UTF_8);
+        String encode_adress = Base64.getEncoder().encodeToString(utf_address.getBytes(StandardCharsets.UTF_8));
+
+
         ObjectMapper objectMapper = new ObjectMapper();
-        UserInfoDto userInfoDto = new UserInfoDto(principalDetails.getUser().getUid(),principalDetails.getUser().getName(),principalDetails.getUser().getAddress());
+        UserInfoDto userInfoDto = new UserInfoDto(principalDetails.getUser().getUid(),encode_name,encode_adress);
         String userInfoJson = objectMapper.writeValueAsString(userInfoDto);
 
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken); //헤더에 Authorization으로 담김

@@ -70,7 +70,6 @@ public class UserController {
         return "user";
     }
 
-
     // 장바구니 api url 확인
     @GetMapping("/api/v1/cart")
     public String cart() {

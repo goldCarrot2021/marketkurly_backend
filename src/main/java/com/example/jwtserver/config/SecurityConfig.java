@@ -5,17 +5,21 @@ import com.example.jwtserver.jwt.JwtAuthenticationFilter;
 import com.example.jwtserver.jwt.JwtAuthorizationFilter;
 import com.example.jwtserver.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.util.Arrays;
 
@@ -27,12 +31,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserRepository userRepository;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint; //jwt 인증이 실패할 경우 처리할때 필요
 
+
+
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+//        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+//
+//        filter.setEncoding("UTF-8");
+//        filter.setForceEncoding(true);
+//        http.addFilterBefore(filter, CsrfFilter.class);
 
         // /login에서 /api/v1/login으로 변경
         JwtAuthenticationFilter authenticationFilter = new JwtAuthenticationFilter(authenticationManager());
@@ -76,10 +91,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        config.addAllowedOrigin("*");
         config.addAllowedHeader("*"); //모든 header에 응답을 허용하겠다.
         config.addAllowedMethod("*"); //모든 post,get,put,delete,fetch 요청을 허용하겠다.
-        config.setExposedHeaders(Arrays.asList("Authorization", "content-type","userInfo"));
+        config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type","userInfo"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/api/**", config); // /api/** 로 들어오는 요청은 위 사항을 따르게한다.
         return source;
     }
+
 }
