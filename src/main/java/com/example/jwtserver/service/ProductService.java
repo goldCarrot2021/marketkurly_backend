@@ -15,15 +15,19 @@ public class ProductService {
 
     /* sort에 따라서 productList 들고 오기 */
     public List<Product> getProductList(String sort) {
-        List<Product> prductList = null;
+        List<Product> productlist = null;
 
         if (sort.equals("asc")) {
-            prductList = productRepository.findAllByOrderByPriceAsc();
+            productlist = productRepository.findAllByOrderByPriceAsc();
+
         } else if (sort.equals("desc")) {
-            prductList = productRepository.findAllByOrderByPriceDesc();
+            productlist = productRepository.findAllByOrderByPriceDesc();
+
+        }else{
+            productlist = productRepository.findAll();
         }
 
-        return prductList;
+        return productlist;
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.jwtserver.jwt;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.jwtserver.auth.PrincipalDetails;
+import com.example.jwtserver.dto.UserInfoDto;
 import com.example.jwtserver.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -90,6 +91,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withClaim("username", principalDetails.getUser().getUsername())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET)); //시크릿키 값
 
+        ObjectMapper objectMapper = new ObjectMapper();
+        UserInfoDto userInfoDto = new UserInfoDto(principalDetails.getUser().getUid(),principalDetails.getUser().getName(),principalDetails.getUser().getAddress());
+        String userInfoJson = objectMapper.writeValueAsString(userInfoDto);
+
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken); //헤더에 Authorization으로 담김
+        response.addHeader("userInfo",userInfoJson);
     }
 }

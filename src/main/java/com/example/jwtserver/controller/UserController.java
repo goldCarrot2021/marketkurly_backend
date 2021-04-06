@@ -31,17 +31,32 @@ public class UserController {
     @PostMapping("/api/v1/signup")
     @ResponseBody
     public String createUser(@RequestBody SignupRequestDto signupRequestDto){
+        String ok=""; // 결과에 따라 ok의 값을 바꿔서 반환.
 
-        /* 유저 생성 */
-        User user = userService.createUser(signupRequestDto);
+        /* 백엔드에서 한번 더 중복 체크 */
+        String checkName =userService.usernameCheck(signupRequestDto.getUsername());
+        String checkEmail = userService.emailCheck(signupRequestDto.getEmail());
 
-        String ok="";
-        if(user==null){ /* user객체가 비어있다면 = 유저가 생성 안됬다면*/
-            ok="false"; /* false를 프론트단 에 넘겨줌 */
+        if(checkName.equals("false")){
+            ok="usernameFalse";
 
-        }else if(user != null){ /* user객체가 비어있지않다면 = 유저가 생성 됬다면 */
-            ok="true"; /* true를 프론트 단에 넘겨줌 */
+        }else if(checkEmail.equals("false")){
+            ok="emailFalse";
+
+        }else{
+
+            /* 유저 생성 */
+            User user = userService.createUser(signupRequestDto);
+
+            if(user==null){ /* user객체가 비어있다면 = 유저가 생성 안됬다면*/
+                ok="false"; /* false를 프론트단 에 넘겨줌 */
+
+            }else if(user != null){ /* user객체가 비어있지않다면 = 유저가 생성 됬다면 */
+                ok="true"; /* true를 프론트 단에 넘겨줌 */
+            }
         }
+
+
         return ok;
     }
 
