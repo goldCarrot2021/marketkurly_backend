@@ -20,15 +20,12 @@ public class CartController {
                              @PathVariable Long pid,
                              @RequestBody CartRequestDto cartRequestDto){
         Cart cart = cartService.createCart(cartRequestDto,uid,pid);
-        if(cart == null){
-            return "fail";
-        }else{
-            return "true";
-        }
+        return "success";
     }
 
     @GetMapping("/api/v1/cart/{uid}")
     public List<Cart> getCartList(@PathVariable Long uid){
+        System.out.println("cart list check");
         return cartService.getCartList(uid);
     }
 

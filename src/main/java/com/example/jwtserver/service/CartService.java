@@ -28,9 +28,11 @@ public class CartService {
     }
 
     public Cart createCart(CartRequestDto cartRequestDto,Long uid,Long pid){
+        /* user 한번 더 확인*/
         User user = userRepository.findById(uid).orElseThrow(
                 ()-> new IllegalArgumentException("userError")
         );
+        /* 해당 상품이 존재하는지 확인. */
         Product product =productRepository.findById(pid).orElseThrow(
                 ()-> new IllegalArgumentException("productError")
         );
@@ -49,6 +51,7 @@ public class CartService {
 
     @Transactional
     public Cart updateCart(Long cid,CartRequestDto cartRequestDto){
+
         Cart cart=cartRepositroy.findById(cid).orElseThrow(
                 ()-> new IllegalArgumentException("Carterror")
         );
@@ -57,14 +60,14 @@ public class CartService {
      }
 
      public String deleteCart(Long cid){
-        Optional<Cart> cart=cartRepositroy.findById(cid);
-
-        if(cart.isPresent()){
-            cartRepositroy.deleteById(cid);
-            return "ture";
-        }else{
+        /* 해당 cart가 존재하는지 확인 */
+        try{
+            Optional<Cart> cart=cartRepositroy.findById(cid);
+        }catch (IllegalArgumentException e){
             return "false";
         }
+        cartRepositroy.deleteById(cid);
+        return "ture";
 
     }
 }

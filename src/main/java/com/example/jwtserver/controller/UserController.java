@@ -1,9 +1,9 @@
 package com.example.jwtserver.controller;
 
 import com.example.jwtserver.auth.PrincipalDetails;
+import com.example.jwtserver.dto.MessageRequestDto;
 import com.example.jwtserver.dto.SignupRequestDto;
 import com.example.jwtserver.model.User;
-import com.example.jwtserver.repository.UserRepository;
 import com.example.jwtserver.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -29,36 +29,36 @@ public class UserController {
 //    }
 
     @PostMapping("/api/v1/signup")
-    @ResponseBody
-    public String createUser(@RequestBody SignupRequestDto signupRequestDto){
-        System.out.println(signupRequestDto.getUsername());
-        String ok=""; // 결과에 따라 ok의 값을 바꿔서 반환.
+    public MessageRequestDto createUser(@RequestBody SignupRequestDto signupRequestDto){
 
+        System.out.println(signupRequestDto.getUsername());
+         // 결과에 따라 ok의 값을 바꿔서 반환.
         /* 백엔드에서 한번 더 중복 체크 */
         String checkName =userService.usernameCheck(signupRequestDto.getUsername());
         String checkEmail = userService.emailCheck(signupRequestDto.getEmail());
 
+        MessageRequestDto messageRequestDto;
+
         if(checkName.equals("false")){
-            ok="usernameFalse";
+            System.out.println("false에 걸림");
+            messageRequestDto = new MessageRequestDto();
+            messageRequestDto.setMessage("usernamefail");
+            return messageRequestDto;
 
         }else if(checkEmail.equals("false")){
-            ok="emailFalse";
+            System.out.println("emailFalse에 걸림");
+            messageRequestDto = new MessageRequestDto();
+            messageRequestDto.setMessage("emailFalse");
+            return messageRequestDto;
 
         }else{
-
             /* 유저 생성 */
+            System.out.println("eslse구문에 걸림");
             User user = userService.createUser(signupRequestDto);
-
-            if(user==null){ /* user객체가 비어있다면 = 유저가 생성 안됬다면*/
-                ok="false"; /* false를 프론트단 에 넘겨줌 */
-
-            }else if(user != null){ /* user객체가 비어있지않다면 = 유저가 생성 됬다면 */
-                ok="true"; /* true를 프론트 단에 넘겨줌 */
-            }
+            messageRequestDto = new MessageRequestDto();
+            messageRequestDto.setMessage("success");
+            return messageRequestDto;
         }
-
-
-        return ok;
     }
 
 
@@ -74,7 +74,6 @@ public class UserController {
 
     /* 유저 아이디 중복 체크 */
     @GetMapping("/api/v1/signup/username/{username}")
-    @ResponseBody
     public String userIdCheck(@PathVariable String username){
         return userService.usernameCheck(username);
     }
@@ -82,7 +81,6 @@ public class UserController {
 
     /* email중복  */
     @GetMapping("/api/v1/signup/email/{email}")
-    @ResponseBody
     public String emailCheck(@PathVariable String email){
         return userService.emailCheck(email);
     }
