@@ -94,7 +94,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withClaim("username", principalDetails.getUser().getUsername())
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET)); //시크릿키 값
 
-        //Base64로 userInfo에 보낼 정보 인코딩(한글 깨지는거 utf-8로 인코딩해서 해결)
+//        Base64로 userInfo에 보낼 정보 인코딩(한글 깨지는거 utf-8로 인코딩해서 해결)
         String utf_name = URLEncoder.encode(principalDetails.getUser().getName(), StandardCharsets.UTF_8);
         String encode_name = Base64.getEncoder().encodeToString(utf_name.getBytes(StandardCharsets.UTF_8));
         String utf_address = URLEncoder.encode(principalDetails.getUser().getAddress(), StandardCharsets.UTF_8);
@@ -102,10 +102,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 
         ObjectMapper objectMapper = new ObjectMapper();
+//        UserInfoDto userInfoDto = new UserInfoDto(principalDetails.getUser().getUid(),principalDetails.getUser().getName(), principalDetails.getUser().getAddress());
+
         UserInfoDto userInfoDto = new UserInfoDto(principalDetails.getUser().getUid(),encode_name,encode_adress);
         String userInfoJson = objectMapper.writeValueAsString(userInfoDto);
 
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken); //헤더에 Authorization으로 담김
         response.addHeader("userInfo",userInfoJson);
+        //토큰 정보 body에 넣을떄
+//        response.addHeader("Content-type","application/json");
+//        response.getWriter().write(userInfoJson);
+
     }
 }

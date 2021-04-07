@@ -31,6 +31,7 @@ public class UserController {
     @PostMapping("/api/v1/signup")
     @ResponseBody
     public String createUser(@RequestBody SignupRequestDto signupRequestDto){
+        System.out.println(signupRequestDto.getUsername());
         String ok=""; // 결과에 따라 ok의 값을 바꿔서 반환.
 
         /* 백엔드에서 한번 더 중복 체크 */
@@ -70,11 +71,6 @@ public class UserController {
         return "user";
     }
 
-    // 장바구니 api url 확인
-    @GetMapping("/api/v1/cart")
-    public String cart() {
-        return "<h1>cart</h1>";
-    }
 
     /* 유저 아이디 중복 체크 */
     @GetMapping("/api/v1/signup/username/{username}")

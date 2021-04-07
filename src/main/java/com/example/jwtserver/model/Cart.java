@@ -1,30 +1,42 @@
 package com.example.jwtserver.model;
 
 
+import com.example.jwtserver.dto.CartRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@Entity
+@Table(name ="cart")
 public class Cart {
+
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long cid;
 
-    @Column(nullable = false)
-    private Long pid;
+    @ManyToOne
+    @JoinColumn(name ="product_pid")
+    private Product produt;
+
+    @ManyToOne
+    @JoinColumn(name = "user_uid")
+    private User user;
 
     @Column(nullable = false)
-    private Long uid;
+    private int count;
 
-    @Column(nullable = false)
-    private int price;
+    public Cart(Product product, User user, CartRequestDto cartRequestDto) {
+        this.produt = product;
+        this.user = user;
+        this.count = cartRequestDto.getCount();
+    }
 
+    public void update(CartRequestDto cartRequestDto){
+        this.count = cartRequestDto.getCount();
+    }
 }

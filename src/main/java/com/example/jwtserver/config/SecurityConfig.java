@@ -90,7 +90,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         config.addAllowedOriginPattern("*");
 //        config.addAllowedOrigin("*");
         config.addAllowedHeader("*"); //모든 header에 응답을 허용하겠다.
-        config.addAllowedMethod("*"); //모든 post,get,put,delete,fetch 요청을 허용하겠다.
+//        config.addAllowedMethod("*"); //모든 post,get,put,delete,fetch 요청을 허용하겠다.
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("FETCH");
+
+        //body에 유저 정보 담을때
+//        config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
         config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type","userInfo"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
