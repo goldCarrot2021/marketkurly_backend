@@ -28,6 +28,11 @@ public class CartService {
     }
 
     public Cart createCart(CartRequestDto cartRequestDto,Long uid,Long pid){
+        System.out.println("장바구니 요청 들어옴");
+        System.out.println(uid);
+        System.out.println(pid);
+        System.out.println(cartRequestDto.getCount());
+
         /* user 한번 더 확인*/
         User user = userRepository.findById(uid).orElseThrow(
                 ()-> new IllegalArgumentException("userError")
@@ -36,6 +41,9 @@ public class CartService {
         Product product =productRepository.findById(pid).orElseThrow(
                 ()-> new IllegalArgumentException("productError")
         );
+
+        System.out.println(product);
+        System.out.println(user);
 
         Cart cart = new Cart(product,user,cartRequestDto);
         cartRepositroy.save(cart);

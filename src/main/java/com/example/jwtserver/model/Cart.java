@@ -21,7 +21,7 @@ public class Cart {
 
     @ManyToOne
     @JoinColumn(name ="product_pid")
-    private Product produt;
+    private Product product;
 
     @ManyToOne
     @JoinColumn(name = "user_uid")
@@ -31,7 +31,8 @@ public class Cart {
     private int count;
 
     public Cart(Product product, User user, CartRequestDto cartRequestDto) {
-        this.produt = product;
+        System.out.println("Cart"+product+user);
+        this.product = product;
         this.user = user;
         this.count = cartRequestDto.getCount();
     }

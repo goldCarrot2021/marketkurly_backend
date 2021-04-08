@@ -19,6 +19,7 @@ public class CartController {
     public String createCart(@PathVariable Long uid,
                              @PathVariable Long pid,
                              @RequestBody CartRequestDto cartRequestDto){
+        System.out.println("장바구니 요청 controller");
         Cart cart = cartService.createCart(cartRequestDto,uid,pid);
         return "success";
     }
@@ -31,6 +32,7 @@ public class CartController {
 
     @PutMapping("/api/v1/cart/{cid}")
     public Cart updateCart(@PathVariable Long cid, @RequestBody CartRequestDto requestDto){
+        System.out.println(requestDto.getCount());
         return cartService.updateCart(cid,requestDto);
     }
 
