@@ -10,8 +10,8 @@
 - 개발 환경 : React,SpringBoot ,Python
 - 배포 환경 : AWS EC2 , RDS ,MYSQL
 - 담당 역활 : 
-           * 이은지 : 회원가입 & 상품 페이지 조회 & 크롤링(python,셀레니움) , 장바구니 구현 ,배포 
-           * 채진욱 : jwt 로그인 방식 구현 
+  * 이은지 : 회원가입 & 상품 페이지 조회 & 크롤링(python,셀레니움) , 장바구니 구현 ,배포 
+  * 채진욱 : jwt 로그인 방식 구현 
 - 형상 관리 툴 : git
 - 시연 영상 : https://www.youtube.com/watch?v=I_a46SRcIL0
 
