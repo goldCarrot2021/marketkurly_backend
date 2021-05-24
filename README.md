@@ -16,61 +16,22 @@
 - Server:<br>`Amazon EC2 Ubuntu`
 
 
-## Back-end 주요 기능
+## 주요기능
 ### 회원가입
-- 회원 가입 요청 api
-```
-POST
-/api/v1/signup
-```
+- 회원 가입 
 - 유저 아이디 중복 체크 api
-```
-GET
-/api/v1/signup/username/{username}
-```
-- email 중복 체크 api
-```
-GET
-/api/v1/signup/email/{email}
-```
 
 ### 로그인
-`JWT로 로그인 구현`
-- 로그인 api
-```
-POST
-/api/v1/login
-```
-
+-  jwt 방식으로 로그인 구현
+  
 ### 상품 목록
 - 상품 목록 api
-```
-GET
-/api/v1/products
-```
 
 ### 장바구니
-- 장바구니 상품 추가 api
-```
-POST
-/api/v1/cart/{uid}/{pid}
-```
-- 장바구니 조회 api
-```
-GET
-/api/v1/cart/{uid}
-```
-- 장바구니 상품 개수 변경 api
-```
-PUT
-/api/v1/cart/{cid}
-```
-- 장바구니 상품 삭제 api
-```
-POST
-/api/v1/cart/{cid}
-```
-
+- 장바구니 상품 추가 
+- 장바구니 조회
+- 장바구니 상품 개수 변경
+- 
 ### Entity 설계
 - User
 ```
