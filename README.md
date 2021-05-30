@@ -28,6 +28,16 @@ https://github.com/doitfor10/marcketkurly-clone
 <br>
 <br>
 
+### API 설계
+![image](https://user-images.githubusercontent.com/78028746/120097230-5283de00-c16a-11eb-88e8-2525662225fe.png)
+
+<br>
+<br>
+
+### 테이블 설계 
+![image](https://user-images.githubusercontent.com/78028746/120097238-6596ae00-c16a-11eb-92eb-207b48e3181f.png)
+
+
 ## 주요기능
 
 ### 회원가입
