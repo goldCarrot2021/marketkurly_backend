@@ -5,8 +5,13 @@
 ## 프로젝트 소개 
 마켓컬리 클론코딩을 목적으로 상품 상세페이지와 장바구니를 클론코딩한 프로젝트입니다.
 
-### 프론트엔드 Repository: https://github.com/doitfor10/marcketkurly-clone
+<br>
 
+#### 프론트엔드 Repository: 
+https://github.com/doitfor10/marcketkurly-clone
+
+<br>
+<br>
 
 ## 개요
 - 프로젝트 주제: 마켓컬리 클론코딩 ( 상품 페이지 , 장바구니 페이지 )
@@ -20,7 +25,8 @@
 - 형상 관리 툴 : git
 - 시연 영상 : https://www.youtube.com/watch?v=I_a46SRcIL0
 
-
+<br>
+<br>
 
 ## 주요기능
 
@@ -39,8 +45,10 @@
 - 장바구니 조회
 - 장바구니 상품 개수 변경
 
+<br>
+<br>
 
-## 
+## 기술 소개
 - 상품 크롤링
    * 셀레니움을 이용해 마켓컬리 상품 크롤링
  
