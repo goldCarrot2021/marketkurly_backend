@@ -37,6 +37,8 @@ https://github.com/doitfor10/marcketkurly-clone
 ### 테이블 설계 
 ![image](https://user-images.githubusercontent.com/78028746/120097238-6596ae00-c16a-11eb-92eb-207b48e3181f.png)
 
+<br>
+<br>
 
 ## 주요기능
 
